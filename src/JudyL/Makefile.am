@@ -3,7 +3,7 @@ AM_CFLAGS = -DJUDYL @WARN_CFLAGS@
 
 noinst_LTLIBRARIES = libJudyL.la libnext.la libprev.la libcount.la libinline.la
 
-libJudyL_la_SOURCES = JudyLCascade.c JudyLTables.c JudyLCount.c JudyLCreateBranch.c JudyLDecascade.c JudyLDel.c JudyLFirst.c JudyLFreeArray.c JudyLGet.c JudyLInsArray.c JudyLIns.c JudyLInsertBranch.c JudyLMallocIF.c JudyLMemActive.c JudyLMemUsed.c 
+libJudyL_la_SOURCES = JudyLCascade.c JudyLTables.c JudyLCount.c JudyLCreateBranch.c JudyLDecascade.c JudyLDel.c JudyLFirst.c JudyLFreeArray.c JudyLGet.c JudyLInsArray.c JudyLIns.c JudyLInsertBranch.c JudyLMallocIF.c JudyLMemActive.c JudyLMemUsed.c
 
 libnext_la_SOURCES = JudyLNext.c JudyLNextEmpty.c
 libnext_la_CFLAGS = $(AM_CFLAGS) -DJUDYNEXT
