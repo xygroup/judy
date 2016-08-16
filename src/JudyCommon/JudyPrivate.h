@@ -24,7 +24,7 @@
 // Header file for all Judy sources, for global but private (non-exported)
 // declarations.
 
-#include "Judy.h"
+#include <Judy.h>
 
 // ****************************************************************************
 // A VERY BRIEF EXPLANATION OF A JUDY ARRAY

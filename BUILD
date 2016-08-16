@@ -10,7 +10,6 @@ prefix="src",
 visibility = ["//visibility:public"],
 )
 
-
 COPTS = [
 "-std=c99",
 "-W",
@@ -19,17 +18,50 @@ COPTS = [
 "-Wmissing-prototypes",
 "-DJU_64BIT",
 "-m64",
-"-IJudy",
-"-Isrc",
-"-Isrc/JudyCommon",
+"-IJudy/src",
+"-IJudy/src/JudyCommon",
 ]
 
 COMMON_HDRS = [
-"src/JudyCommon/Judy.h",
+"src/Judy.h",
 "src/JudyCommon/JudyPrivate.h",
 "src/JudyCommon/JudyPrivateBranch.h",
 "src/JudyCommon/JudyPrivate1L.h",
 ]
+
+cc_binary(
+name = "Judy1TablesGen",
+srcs = COMMON_HDRS + [
+"src/JudyCommon/Judy1.h",
+"src/JudyCommon/JudyTables.c",
+],
+copts = COPTS + ["-DJUDY1"],
+)
+
+cc_binary(
+name = "JudyLTablesGen",
+srcs = COMMON_HDRS + [
+"src/JudyCommon/JudyL.h",
+"src/JudyCommon/JudyTables.c",
+],
+copts = COPTS + ["-DJUDYL"],
+)
+
+genrule(
+name = "tablegen1",
+srcs = [],
+outs = ["src/JudyCommon/GenJudy1Tables.c"],
+cmd = "./$(location :Judy1TablesGen) && cat Judy1Tables.c > \"$@\"",
+tools = ["Judy1TablesGen"],
+)
+
+genrule(
+name = "tablegenL",
+srcs = [],
+outs = ["src/JudyCommon/GenJudyLTables.c"],
+cmd = "./$(location JudyLTablesGen) && cat JudyLTables.c > \"$@\"",
+tools = ["JudyLTablesGen"],
+)
 
 cc_library(
 name = "JudyImpl",
@@ -65,7 +97,7 @@ hdrs = COMMON_HDRS + [
 ],
 srcs = [
 "src/JudyCommon/JudyGet.c",
-"src/JudyCommon/JudyTables.c",
+":tablegen1",
 "src/JudyCommon/JudyIns.c",
 "src/JudyCommon/JudyInsArray.c",
 "src/JudyCommon/JudyDel.c",
@@ -177,10 +209,10 @@ visibility = ["//visibility:private"],
 cc_library(
 name = "JudyHS",
 hdrs = COMMON_HDRS + [
-"src/JudyCommon/JudyHS.h",
+"src/JudyHS/JudyHS.h",
 ],
 srcs = [
-"src/JudyCommon/JudyHS.c",
+"src/JudyHS/JudyHS.c",
 ],
 linkstatic=1,
 deps=[
@@ -200,7 +232,7 @@ hdrs = COMMON_HDRS + [
 ],
 srcs = [
 "src/JudyCommon/JudyCascade.c",
-"src/JudyCommon/JudyTables.c",
+":tablegenL",
 "src/JudyCommon/JudyCount.c",
 "src/JudyCommon/JudyCreateBranch.c",
 "src/JudyCommon/JudyDecascade.c",
@@ -313,7 +345,7 @@ cc_library(
 name = "JudySL",
 hdrs = COMMON_HDRS,
 srcs = [
-"src/JudyCommon/JudySL.c",
+"src/JudySL/JudySL.c",
 ],
 copts = COPTS + [
 ],
@@ -324,3 +356,26 @@ deps=[
 visibility = ["//visibility:private"],
 )
 
+cc_binary(
+name = "Judy1LHCheck",
+srcs = COMMON_HDRS + [
+"test/Judy1LHCheck.c",
+],
+copts = COPTS + [
+],
+deps=[
+":Judy",
+],
+)
+
+cc_binary(
+name = "Judy1LHTime",
+srcs = COMMON_HDRS + [
+"test/Judy1LHTime.c",
+],
+copts = COPTS + [
+],
+deps=[
+":Judy",
+],
+)
