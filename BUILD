@@ -83,6 +83,7 @@ cc_library(
   hdrs = COMMON_HDRS,
   srcs = [
     "src/JudyCommon/JudyMalloc.c",
+    "src/Judy.h",
   ],
   copts=COPTS + [
   ],
