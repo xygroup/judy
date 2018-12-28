@@ -1,4 +1,4 @@
-cc_inc_library(
+cc_library(
     name = "Judy",
     hdrs = [
         "src/Judy.h",
@@ -6,7 +6,7 @@ cc_inc_library(
     deps = [
         ":JudyImpl",
     ],
-    prefix = "src",
+    include_prefix = "src",
     visibility = ["//visibility:public"],
 )
 
