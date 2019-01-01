@@ -1,5 +1,5 @@
 cc_library(
-    name = "Judy",
+    name = "judy",
     hdrs = [
         "src/Judy.h",
     ],
@@ -364,7 +364,7 @@ cc_binary(
         "test/Judy1LHCheck.c",
     ],
     deps = [
-        ":Judy",
+        ":judy",
     ],
     copts = COPTS + [],
 )
@@ -375,7 +375,7 @@ cc_binary(
         "test/Judy1LHTime.c",
     ],
     deps = [
-        ":Judy",
+        ":judy",
     ],
     copts = COPTS + [],
 )
